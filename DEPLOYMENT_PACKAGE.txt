@@ -1,0 +1,1218 @@
+# Guardian Nets Website - Complete Project Package
+
+This file contains all the necessary files to recreate the Guardian Nets portfolio website.
+Each file is separated by "=== FILE: filename ===" markers.
+
+## Instructions:
+1. Create a new folder for your project
+2. Copy each file section below into separate files with the specified names
+3. Maintain the exact folder structure shown
+4. Run `npm install` to install dependencies
+5. Run `npm run dev` to start the development server
+
+## Project Structure:
+```
+guardian-nets-website/
+├── package.json
+├── vite.config.ts
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── tailwind.config.js
+├── postcss.config.js
+├── eslint.config.js
+├── index.html
+├── public/
+│   └── Guardian Nets Official Logo.png (your logo file)
+└── src/
+    ├── main.tsx
+    ├── App.tsx
+    ├── index.css
+    ├── vite-env.d.ts
+    └── components/
+        ├── Header.tsx
+        ├── Hero.tsx
+        ├── About.tsx
+        ├── Projects.tsx
+        ├── MeetingNotes.tsx
+        ├── Events.tsx
+        └── Contact.tsx
+```
+
+=== FILE: package.json ===
+{
+  "name": "guardian-nets-website",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lucide-react": "^0.344.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.1",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^9.9.1",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.3.0",
+    "vite": "^5.4.2"
+  }
+}
+
+=== FILE: vite.config.ts ===
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  optimizeDeps: {
+    exclude: ['lucide-react'],
+  },
+});
+
+=== FILE: tsconfig.json ===
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+
+=== FILE: tsconfig.app.json ===
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}
+
+=== FILE: tsconfig.node.json ===
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["vite.config.ts"]
+}
+
+=== FILE: tailwind.config.js ===
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+
+=== FILE: postcss.config.js ===
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+=== FILE: eslint.config.js ===
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
+
+export default tseslint.config(
+  { ignores: ['dist'] },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+    },
+  }
+);
+
+=== FILE: index.html ===
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guardian Nets Club Portfolio Website</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+=== FILE: src/main.tsx ===
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App.tsx';
+import './index.css';
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+
+=== FILE: src/App.tsx ===
+import React from 'react';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import About from './components/About';
+import Projects from './components/Projects';
+import Events from './components/Events';
+import MeetingNotes from './components/MeetingNotes';
+import Contact from './components/Contact';
+
+function App() {
+  return (
+    <div className="min-h-screen bg-white">
+      <Header />
+      <Hero />
+      <About />
+      <Projects />
+      <MeetingNotes />
+      <Events />
+      <Contact />
+    </div>
+  );
+}
+
+export default App;
+
+=== FILE: src/index.css ===
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+=== FILE: src/vite-env.d.ts ===
+/// <reference types="vite/client" />
+
+=== FILE: src/components/Header.tsx ===
+import React, { useState, useEffect } from 'react';
+import { Menu, X } from 'lucide-react';
+
+const Header = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  return (
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100' 
+          : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <img 
+              src="/Guardian Nets Official Logo.png" 
+              alt="Guardian Nets Logo" 
+              className="w-10 h-10 object-contain"
+            />
+            <span className={`font-bold text-xl transition-colors duration-300 ${
+              isScrolled ? 'text-gray-900' : 'text-white'
+            }`}>
+              Guardian Nets
+            </span>
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            {['about', 'projects', 'meeting-notes', 'events', 'contact'].map((item) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(item)}
+                className={`capitalize font-medium transition-all duration-300 hover:scale-105 ${
+                  isScrolled 
+                    ? 'text-gray-700 hover:text-green-600' 
+                    : 'text-white/90 hover:text-white'
+                }`}
+              >
+                {item === 'meeting-notes' ? 'Meeting Notes' : item}
+              </button>
+            ))}
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`md:hidden p-2 transition-colors duration-300 ${
+              isScrolled ? 'text-gray-900' : 'text-white'
+            }`}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMobileMenuOpen && (
+          <nav className="md:hidden mt-4 pb-4 border-t border-gray-200/20">
+            <div className="flex flex-col space-y-3 pt-4">
+              {['about', 'projects', 'meeting-notes', 'events', 'contact'].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item)}
+                  className={`capitalize font-medium text-left transition-colors duration-300 ${
+                    isScrolled 
+                      ? 'text-gray-700 hover:text-green-600' 
+                      : 'text-white/90 hover:text-white'
+                  }`}
+                >
+                  {item === 'meeting-notes' ? 'Meeting Notes' : item}
+                </button>
+              ))}
+            </div>
+          </nav>
+        )}
+      </div>
+    </header>
+  );
+};
+
+export default Header;
+
+=== FILE: src/components/Hero.tsx ===
+import React from 'react';
+import { ArrowDown, Leaf, Lightbulb, Users } from 'lucide-react';
+
+const Hero = () => {
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-emerald-700 to-teal-800"></div>
+      
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-white rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-white rounded-full animate-pulse delay-1000"></div>
+        <div className="absolute bottom-32 left-1/4 w-16 h-16 bg-white rounded-full animate-pulse delay-2000"></div>
+        <div className="absolute bottom-20 right-1/3 w-20 h-20 bg-white rounded-full animate-pulse delay-500"></div>
+      </div>
+
+      <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto">
+        <div className="mb-8 flex justify-center space-x-6">
+          <div className="p-3 bg-white/10 rounded-full backdrop-blur-sm animate-bounce">
+            <Leaf className="w-8 h-8" />
+          </div>
+          <div className="p-3 bg-white/10 rounded-full backdrop-blur-sm animate-bounce delay-200">
+            <Lightbulb className="w-8 h-8" />
+          </div>
+          <div className="p-3 bg-white/10 rounded-full backdrop-blur-sm animate-bounce delay-400">
+            <Users className="w-8 h-8" />
+          </div>
+        </div>
+
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          <span className="block">Guardian</span>
+          <span className="block bg-gradient-to-r from-green-200 to-emerald-200 bg-clip-text text-transparent">
+            Nets
+          </span>
+        </h1>
+        
+        <p className="text-xl md:text-2xl mb-8 text-green-100 font-light leading-relaxed">
+          Where environmental science meets entrepreneurship.
+          <br />
+          Building sustainable solutions for tomorrow.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <button 
+            onClick={scrollToAbout}
+            className="px-8 py-4 bg-white text-green-700 font-semibold rounded-full hover:bg-green-50 transition-all duration-300 hover:scale-105 shadow-lg"
+          >
+            Discover Our Mission
+          </button>
+          <button 
+            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+            className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-green-700 transition-all duration-300 hover:scale-105"
+          >
+            View Projects
+          </button>
+        </div>
+
+        <button 
+          onClick={scrollToAbout}
+          className="animate-bounce text-white/80 hover:text-white transition-colors duration-300"
+        >
+          <ArrowDown className="w-6 h-6 mx-auto" />
+        </button>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
+
+=== FILE: src/components/About.tsx ===
+import React from 'react';
+import { Target, Heart, Zap, Globe } from 'lucide-react';
+
+const About = () => {
+  const values = [
+    {
+      icon: <Target className="w-8 h-8" />,
+      title: "Innovation",
+      description: "Developing cutting-edge solutions to environmental challenges through entrepreneurial thinking."
+    },
+    {
+      icon: <Heart className="w-8 h-8" />,
+      title: "Sustainability",
+      description: "Creating lasting positive impact on our planet through science-backed initiatives."
+    },
+    {
+      icon: <Zap className="w-8 h-8" />,
+      title: "Action",
+      description: "Turning ideas into reality with hands-on projects and real-world applications."
+    },
+    {
+      icon: <Globe className="w-8 h-8" />,
+      title: "Community",
+      description: "Building a network of passionate individuals committed to environmental stewardship."
+    }
+  ];
+
+  return (
+    <section id="about" className="py-20 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            About Guardian Nets
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            We're a dynamic community of environmental science and entrepreneurship enthusiasts, 
+            dedicated to creating innovative solutions that protect our planet while building 
+            sustainable businesses for the future.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          {values.map((value, index) => (
+            <div 
+              key={index}
+              className="group p-6 bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-2"
+            >
+              <div className="text-green-600 mb-4 group-hover:scale-110 transition-transform duration-300">
+                {value.icon}
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                {value.title}
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                {value.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-6">
+                Our Mission
+              </h3>
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                Guardian Nets bridges the gap between environmental science and entrepreneurship, 
+                empowering students to develop innovative, market-ready solutions to pressing 
+                environmental challenges.
+              </p>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                Through collaborative projects, workshops, and real-world applications, we're 
+                building the next generation of environmental entrepreneurs who will lead the 
+                transition to a sustainable economy.
+              </p>
+            </div>
+            <div className="relative">
+              <div className="aspect-square bg-gradient-to-br from-green-100 to-emerald-100 rounded-3xl flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-green-600 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <Globe className="w-12 h-12 text-white" />
+                  </div>
+                  <p className="text-green-800 font-semibold text-lg">
+                    Protecting Our Planet
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
+
+=== FILE: src/components/Projects.tsx ===
+import React from 'react';
+import { ExternalLink, Github, Award, Calendar } from 'lucide-react';
+
+const Projects = () => {
+  const projects = [
+    {
+      title: "EcoTrack Mobile App",
+      description: "A comprehensive carbon footprint tracking application that helps users monitor and reduce their environmental impact through gamification and social features.",
+      image: "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=800",
+      tags: ["Mobile Development", "Sustainability", "React Native"],
+      status: "Live",
+      year: "2024"
+    },
+    {
+      title: "Campus Waste Reduction Initiative",
+      description: "Data-driven project that reduced campus waste by 40% through smart bin placement, composting programs, and student engagement campaigns.",
+      image: "https://images.pexels.com/photos/3735218/pexels-photo-3735218.jpeg?auto=compress&cs=tinysrgb&w=800",
+      tags: ["Data Analysis", "Waste Management", "Community Engagement"],
+      status: "Completed",
+      year: "2024"
+    },
+    {
+      title: "Green Energy Marketplace",
+      description: "Platform connecting renewable energy producers with local consumers, facilitating peer-to-peer energy trading in university communities.",
+      image: "https://images.pexels.com/photos/9800029/pexels-photo-9800029.jpeg?auto=compress&cs=tinysrgb&w=800",
+      tags: ["Blockchain", "Renewable Energy", "Marketplace"],
+      status: "In Development",
+      year: "2024"
+    },
+    {
+      title: "Biodiversity Monitoring System",
+      description: "IoT-based ecosystem monitoring solution using AI to track local wildlife populations and environmental health indicators.",
+      image: "https://images.pexels.com/photos/1108701/pexels-photo-1108701.jpeg?auto=compress&cs=tinysrgb&w=800",
+      tags: ["IoT", "AI/ML", "Environmental Science"],
+      status: "Research Phase",
+      year: "2024"
+    }
+  ];
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Live': return 'bg-green-100 text-green-800';
+      case 'Completed': return 'bg-blue-100 text-blue-800';
+      case 'In Development': return 'bg-yellow-100 text-yellow-800';
+      case 'Research Phase': return 'bg-purple-100 text-purple-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  return (
+    <section id="projects" className="py-20 bg-white">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Our Projects
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Innovative solutions at the intersection of environmental science and entrepreneurship, 
+            creating real impact for our planet and communities.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {projects.map((project, index) => (
+            <div 
+              key={index}
+              className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2"
+            >
+              <div className="relative overflow-hidden">
+                <img 
+                  src={project.image} 
+                  alt={project.title}
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4 flex items-center space-x-2">
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}>
+                    {project.status}
+                  </span>
+                </div>
+                <div className="absolute top-4 right-4">
+                  <span className="px-3 py-1 bg-black/20 backdrop-blur-sm text-white rounded-full text-sm font-medium flex items-center">
+                    <Calendar className="w-4 h-4 mr-1" />
+                    {project.year}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors duration-300">
+                  {project.title}
+                </h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  {project.description}
+                </p>
+                
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tags.map((tag, tagIndex) => (
+                    <span 
+                      key={tagIndex}
+                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex space-x-4">
+                  <button className="flex items-center space-x-2 text-green-600 hover:text-green-700 font-medium transition-colors duration-300">
+                    <ExternalLink className="w-4 h-4" />
+                    <span>View Project</span>
+                  </button>
+                  <button className="flex items-center space-x-2 text-gray-600 hover:text-gray-700 font-medium transition-colors duration-300">
+                    <Github className="w-4 h-4" />
+                    <span>Source</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <button className="px-8 py-4 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-all duration-300 hover:scale-105 shadow-lg">
+            View All Projects
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Projects;
+
+=== FILE: src/components/MeetingNotes.tsx ===
+import React, { useState } from 'react';
+import { Calendar, Users, FileText, ChevronDown, ChevronUp, Plus } from 'lucide-react';
+
+interface MeetingNote {
+  id: string;
+  date: string;
+  project: string;
+  participants: string[];
+  activities: string[];
+  nextSteps?: string[];
+}
+
+const MeetingNotes = () => {
+  const [expandedNote, setExpandedNote] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<string>('all');
+
+  // Sample meeting notes data
+  const meetingNotes: MeetingNote[] = [
+    {
+      id: '1',
+      date: '2024-01-15',
+      project: 'EcoTrack Mobile App',
+      participants: ['Sarah Chen', 'Marcus Johnson', 'Elena Rodriguez'],
+      activities: [
+        'Completed user interface mockups for carbon tracking dashboard',
+        'Integrated Firebase authentication system',
+        'Tested gamification features with beta users',
+        'Fixed critical bugs in data synchronization'
+      ],
+      nextSteps: [
+        'Implement social sharing features',
+        'Add more carbon calculation categories',
+        'Prepare for App Store submission'
+      ]
+    },
+    {
+      id: '2',
+      date: '2024-01-12',
+      project: 'Campus Waste Reduction Initiative',
+      participants: ['David Kim', 'Priya Patel', 'Alex Thompson', 'Maria Santos'],
+      activities: [
+        'Analyzed waste data from past 3 months',
+        'Identified top 5 waste reduction opportunities',
+        'Met with campus facilities management',
+        'Designed new recycling bin placement strategy'
+      ],
+      nextSteps: [
+        'Present findings to student government',
+        'Create awareness campaign materials',
+        'Schedule installation of new bins'
+      ]
+    },
+    {
+      id: '3',
+      date: '2024-01-10',
+      project: 'Green Energy Marketplace',
+      participants: ['Jordan Lee', 'Aisha Okafor', 'Ryan Mitchell'],
+      activities: [
+        'Researched blockchain integration options',
+        'Created smart contract prototypes',
+        'Conducted market analysis for peer-to-peer energy trading',
+        'Developed initial platform wireframes'
+      ],
+      nextSteps: [
+        'Test smart contracts on testnet',
+        'Interview potential early adopters',
+        'Refine platform user experience'
+      ]
+    },
+    {
+      id: '4',
+      date: '2024-01-08',
+      project: 'Biodiversity Monitoring System',
+      participants: ['Taylor Brown', 'Zoe Wang', 'Carlos Mendez'],
+      activities: [
+        'Calibrated IoT sensors for field deployment',
+        'Trained machine learning model on local wildlife data',
+        'Established monitoring locations around campus',
+        'Created data visualization dashboard'
+      ],
+      nextSteps: [
+        'Deploy sensors in identified locations',
+        'Set up automated data collection',
+        'Begin 30-day pilot monitoring period'
+      ]
+    }
+  ];
+
+  const projects = ['all', 'EcoTrack Mobile App', 'Campus Waste Reduction Initiative', 'Green Energy Marketplace', 'Biodiversity Monitoring System'];
+
+  const filteredNotes = selectedProject === 'all' 
+    ? meetingNotes 
+    : meetingNotes.filter(note => note.project === selectedProject);
+
+  const toggleExpanded = (noteId: string) => {
+    setExpandedNote(expandedNote === noteId ? null : noteId);
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
+
+  return (
+    <section id="meeting-notes" className="py-20 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Project Meeting Notes
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Track our daily progress, team contributions, and project milestones. 
+            Stay updated on what we've accomplished and what's coming next.
+          </p>
+        </div>
+
+        {/* Project Filter */}
+        <div className="mb-8 flex justify-center">
+          <div className="bg-white rounded-2xl p-2 shadow-sm">
+            <select 
+              value={selectedProject}
+              onChange={(e) => setSelectedProject(e.target.value)}
+              className="px-4 py-2 bg-transparent border-none focus:outline-none text-gray-700 font-medium"
+            >
+              {projects.map(project => (
+                <option key={project} value={project}>
+                  {project === 'all' ? 'All Projects' : project}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Meeting Notes List */}
+        <div className="space-y-6">
+          {filteredNotes.map((note) => (
+            <div 
+              key={note.id}
+              className="bg-white rounded-3xl shadow-sm hover:shadow-lg transition-all duration-300"
+            >
+              <div 
+                className="p-6 cursor-pointer"
+                onClick={() => toggleExpanded(note.id)}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-4 mb-2">
+                      <div className="flex items-center text-green-600">
+                        <Calendar className="w-5 h-5 mr-2" />
+                        <span className="font-medium">{formatDate(note.date)}</span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <Users className="w-5 h-5 mr-2" />
+                        <span>{note.participants.length} participants</span>
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      {note.project}
+                    </h3>
+                    <p className="text-gray-600">
+                      {note.activities.length} activities completed
+                    </p>
+                  </div>
+                  <div className="text-gray-400">
+                    {expandedNote === note.id ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
+                  </div>
+                </div>
+              </div>
+
+              {expandedNote === note.id && (
+                <div className="px-6 pb-6 border-t border-gray-100">
+                  <div className="pt-6 space-y-6">
+                    {/* Participants */}
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                        <Users className="w-5 h-5 mr-2 text-green-600" />
+                        Participants
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {note.participants.map((participant, index) => (
+                          <span 
+                            key={index}
+                            className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"
+                          >
+                            {participant}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Activities */}
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                        <FileText className="w-5 h-5 mr-2 text-green-600" />
+                        What We Accomplished
+                      </h4>
+                      <ul className="space-y-2">
+                        {note.activities.map((activity, index) => (
+                          <li key={index} className="flex items-start">
+                            <div className="w-2 h-2 bg-green-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                            <span className="text-gray-700">{activity}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Next Steps */}
+                    {note.nextSteps && (
+                      <div>
+                        <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                          <Plus className="w-5 h-5 mr-2 text-blue-600" />
+                          Next Steps
+                        </h4>
+                        <ul className="space-y-2">
+                          {note.nextSteps.map((step, index) => (
+                            <li key={index} className="flex items-start">
+                              <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                              <span className="text-gray-700">{step}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Add New Note Button */}
+        <div className="text-center mt-12">
+          <button className="px-8 py-4 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-all duration-300 hover:scale-105 shadow-lg flex items-center mx-auto">
+            <Plus className="w-5 h-5 mr-2" />
+            Add Meeting Notes
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default MeetingNotes;
+
+=== FILE: src/components/Events.tsx ===
+import React from 'react';
+import { Calendar, MapPin, Users, Clock } from 'lucide-react';
+
+const Events = () => {
+  const events = [
+    {
+      title: "Sustainability Startup Pitch Night",
+      date: "March 15, 2024",
+      time: "6:00 PM - 9:00 PM",
+      location: "Innovation Hub, Room 204",
+      description: "Join us for an evening of innovative pitches from student entrepreneurs presenting their sustainable business ideas.",
+      image: "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=800",
+      attendees: 85,
+      type: "Competition"
+    },
+    {
+      title: "Environmental Data Science Workshop",
+      date: "March 22, 2024",
+      time: "2:00 PM - 5:00 PM",
+      location: "Science Building, Lab 301",
+      description: "Hands-on workshop covering data analysis techniques for environmental research and impact measurement.",
+      image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=800",
+      attendees: 45,
+      type: "Workshop"
+    },
+    {
+      title: "Clean Energy Innovation Summit",
+      date: "April 5, 2024",
+      time: "9:00 AM - 6:00 PM",
+      location: "University Conference Center",
+      description: "Full-day summit featuring industry leaders, research presentations, and networking opportunities in clean energy.",
+      image: "https://images.pexels.com/photos/9800029/pexels-photo-9800029.jpeg?auto=compress&cs=tinysrgb&w=800",
+      attendees: 200,
+      type: "Summit"
+    }
+  ];
+
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case 'Competition': return 'bg-red-100 text-red-800';
+      case 'Workshop': return 'bg-blue-100 text-blue-800';
+      case 'Summit': return 'bg-purple-100 text-purple-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  return (
+    <section id="events" className="py-20 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Upcoming Events
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Join our community events, workshops, and competitions designed to foster 
+            innovation and collaboration in environmental entrepreneurship.
+          </p>
+        </div>
+
+        <div className="space-y-8">
+          {events.map((event, index) => (
+            <div 
+              key={index}
+              className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
+            >
+              <div className="md:flex">
+                <div className="md:w-1/3 relative overflow-hidden">
+                  <img 
+                    src={event.image} 
+                    alt={event.title}
+                    className="w-full h-64 md:h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getTypeColor(event.type)}`}>
+                      {event.type}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="md:w-2/3 p-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors duration-300">
+                    {event.title}
+                  </h3>
+                  
+                  <div className="grid sm:grid-cols-2 gap-4 mb-6">
+                    <div className="flex items-center text-gray-600">
+                      <Calendar className="w-5 h-5 mr-3 text-green-600" />
+                      <span>{event.date}</span>
+                    </div>
+                    <div className="flex items-center text-gray-600">
+                      <Clock className="w-5 h-5 mr-3 text-green-600" />
+                      <span>{event.time}</span>
+                    </div>
+                    <div className="flex items-center text-gray-600">
+                      <MapPin className="w-5 h-5 mr-3 text-green-600" />
+                      <span>{event.location}</span>
+                    </div>
+                    <div className="flex items-center text-gray-600">
+                      <Users className="w-5 h-5 mr-3 text-green-600" />
+                      <span>{event.attendees} attending</span>
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    {event.description}
+                  </p>
+                  
+                  <button className="px-6 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-all duration-300 hover:scale-105">
+                    Register Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <button className="px-8 py-4 border-2 border-green-600 text-green-600 font-semibold rounded-full hover:bg-green-600 hover:text-white transition-all duration-300 hover:scale-105">
+            View All Events
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Events;
+
+=== FILE: src/components/Contact.tsx ===
+import React from 'react';
+import { Mail, Instagram, Linkedin, MapPin, Phone } from 'lucide-react';
+
+const Contact = () => {
+  return (
+    <section id="contact" className="py-20 bg-white">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Join Our Mission
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Ready to make a difference? Connect with Guardian Nets and become part of 
+            our community of environmental entrepreneurs.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12">
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                Get In Touch
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-green-100 rounded-full">
+                    <Mail className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">Email</p>
+                    <p className="text-gray-600">hello@guardiannets.org</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-green-100 rounded-full">
+                    <MapPin className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">Location</p>
+                    <p className="text-gray-600">Student Union Building, Room 250</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-green-100 rounded-full">
+                    <Phone className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">Phone</p>
+                    <p className="text-gray-600">(555) 123-4567</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">
+                Follow Us
+              </h4>
+              <div className="flex space-x-4">
+                <a 
+                  href="#" 
+                  className="p-3 bg-gray-100 rounded-full hover:bg-green-600 hover:text-white transition-all duration-300 hover:scale-110"
+                >
+                  <Instagram className="w-6 h-6" />
+                </a>
+                <a 
+                  href="#" 
+                  className="p-3 bg-gray-100 rounded-full hover:bg-green-600 hover:text-white transition-all duration-300 hover:scale-110"
+                >
+                  <Linkedin className="w-6 h-6" />
+                </a>
+                <a 
+                  href="#" 
+                  className="p-3 bg-gray-100 rounded-full hover:bg-green-600 hover:text-white transition-all duration-300 hover:scale-110"
+                >
+                  <Mail className="w-6 h-6" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-50 rounded-3xl p-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+              Join Guardian Nets
+            </h3>
+            <form className="space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Full Name
+                </label>
+                <input 
+                  type="text" 
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                  placeholder="Your name"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Email Address
+                </label>
+                <input 
+                  type="email" 
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                  placeholder="your.email@university.edu"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Area of Interest
+                </label>
+                <select className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300">
+                  <option>Environmental Science</option>
+                  <option>Entrepreneurship</option>
+                  <option>Data Science</option>
+                  <option>Policy & Advocacy</option>
+                  <option>Community Outreach</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Message
+                </label>
+                <textarea 
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 resize-none"
+                  placeholder="Tell us about your interests and how you'd like to contribute..."
+                ></textarea>
+              </div>
+              
+              <button 
+                type="submit"
+                className="w-full px-8 py-4 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-all duration-300 hover:scale-105 shadow-lg"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Contact;
+
+## Additional Notes:
+
+1. **Logo**: Make sure to place your "Guardian Nets Official Logo.png" file in the `public` folder
+2. **Meeting Notes**: The new section includes sample data - you can easily update the `meetingNotes` array to add your own entries
+3. **Customization**: You can easily update project details, event information, and contact details in the respective component files
+4. **Images**: All images are currently using Pexels stock photos - you can replace these with your own club photos
+5. **Colors**: The design uses a green color scheme that can be customized in the Tailwind classes
+6. **Deployment**: This can be deployed to GitHub Pages, Netlify, Vercel, or any static hosting service
+
+## Getting Started:
+1. Create the folder structure as shown above
+2. Copy each file section into the appropriate file
+3. Run `npm install` to install dependencies
+4. Run `npm run dev` to start the development server
+5. Open your browser to see the website
+
+The website now includes the Meeting Notes feature with expandable cards, project filtering, and a clean interface for tracking daily progress and team contributions. The design maintains the same sophisticated aesthetic inspired by Zach Jordan's work.
